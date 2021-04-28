@@ -11,7 +11,8 @@
 	<groupId>com.example.iiitb</groupId>
 	<artifactId>OrganDonation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<!--<packaging>war</packaging>-->
+	<packaging>jar</packaging>
 	<name>OrganDonation</name>
 	<description>Web appln for Organ DOnation</description>
 	<properties>
