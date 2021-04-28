@@ -1,0 +1,18 @@
+---
+- name: Pull docker image of OrganDonation
+  hosts: all
+  tasks:
+    - name: Pull docker image of OrganDonation-angular
+      docker_image:
+        name: apurvaks/<docker_organdonation-angular_image_name>
+        source: pull
+
+    - name: Pull docker image of OrganDonation-mysql
+        docker_image:
+          name: apurvaks/<docker_organdonation-mysql_image_name>
+          source: pull
+
+    - name: Pull docker image of OrganDonation-spring
+      docker_image:
+        name: apurvaks/<docker_organdonation-spring_image_name>
+        source: pull
