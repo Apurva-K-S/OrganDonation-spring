@@ -2,7 +2,7 @@
 - name: Pull docker image of OrganDonation
   hosts: all
   
-  var:
+  vars:
     db_volume: db_data
   
   tasks:
@@ -11,7 +11,7 @@
         name: apurvaks/organdonation-angular
         source: pull
 
-    - name: Pull docker image of mysql
+    - name: docker container of mysql
       docker_container:
         name: db
         image: mysql:8.0.23
