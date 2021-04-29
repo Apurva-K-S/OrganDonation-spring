@@ -1,4 +1,4 @@
-localhost ansible_user=chandan
+localhost ansible_user=apurva
 
 [ubuntu20]
-192.168.0.25 ansible_user=chandan1
+192.168.0.101 ansible_user=apurva1
