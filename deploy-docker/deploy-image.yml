@@ -1,12 +1,31 @@
 ---
 - name: Pull docker image of OrganDonation
   hosts: all
+  
+  var:
+    db_volume: db_data
+  
   tasks:
     - name: Pull docker image of OrganDonation-angular
       docker_image:
         name: apurvaks/organdonation-angular
         source: pull
 
+    - name: Pull docker image of mysql
+      docker_container:
+        name: db
+        image: mysql:8.0.23
+        volumes:
+          - "{{ db_volume }}:/var/lib/mysql"
+        restart: true
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: OrganDonation
+          MYSQL_USER: chandanteja
+          MYSQL_PASSWORD: '@2B2c2d2'
+        ports:
+          - "3307:3306"
+        
     - name: Pull docker image of OrganDonation-spring
       docker_image:
         name: apurvaks/organdonation-spring
