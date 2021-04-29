@@ -8,7 +8,7 @@
   tasks:
     - name: Pull docker image of OrganDonation-angular
       docker_image:
-        name: apurvaks/organdonation-angular
+        name: chandan321/organdonation-angular
         source: pull
 
     - name: docker container of mysql
@@ -28,5 +28,5 @@
         
     - name: Pull docker image of OrganDonation-spring
       docker_image:
-        name: apurvaks/organdonation-spring
+        name: chandan321/organdonation-spring
         source: pull
