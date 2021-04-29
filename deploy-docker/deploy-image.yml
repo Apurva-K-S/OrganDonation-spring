@@ -4,10 +4,10 @@
   tasks:
     - name: Pull docker image of OrganDonation-angular
       docker_image:
-        name: chandan321/organdonation-angular
+        name: apurvaks/organdonation-angular
         source: pull
 
     - name: Pull docker image of OrganDonation-spring
       docker_image:
-        name: chandan321/organdonation-spring
+        name: apurvaks/organdonation-spring
         source: pull
