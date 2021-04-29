@@ -19,9 +19,9 @@
           - "{{ db_volume }}:/var/lib/mysql"
         restart: true
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: OrganDonation
-          MYSQL_USER: chandanteja
+          MYSQL_ROOT_PASSWORD: 'root'
+          MYSQL_DATABASE: 'OrganDonation'
+          MYSQL_USER: 'chandanteja'
           MYSQL_PASSWORD: '@2B2c2d2'
         ports:
           - "3307:3306"
