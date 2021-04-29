@@ -2,31 +2,56 @@
 - name: Pull docker image of OrganDonation
   hosts: all
   
-  vars:
-    db_volume: db_data
+  #vars:
+  #  db_volume: db_data
   
   tasks:
-    - name: Pull docker image of OrganDonation-angular
-      docker_image:
-        name: apurvaks/organdonation-angular
-        source: pull
-
-    - name: docker container of mysql
+    - name: Create database container
       docker_container:
-        name: db
+        name: mysql-con1
         image: mysql:8.0.23
-        volumes:
-          - "{{ db_volume }}:/var/lib/mysql"
-        restart: true
         env:
           MYSQL_ROOT_PASSWORD: '@2B2c2d2'
           MYSQL_DATABASE: 'OrganDonation'
           MYSQL_USER: 'chandanteja'
           MYSQL_PASSWORD: '@2B2c2d2'
-        ports:
-          - "3307:3306"
-        
+ 
+        networks:
+          - name: organdonation
+            ipv4_address: "192.168.3.22"
+    
     - name: Pull docker image of OrganDonation-spring
       docker_image:
         name: apurvaks/organdonation-spring
         source: pull
+
+    - name: Pull docker image of OrganDonation-angular
+      docker_image:
+        name: apurvaks/organdonation-angular
+        source: pull
+        
+  
+    #- name: Pull docker image of OrganDonation-angular
+    #  docker_image:
+    #    name: apurvaks/organdonation-angular
+    #    source: pull
+
+    #- name: docker container of mysql
+    #  docker_container:
+    #    name: db
+    #    image: mysql:8.0.23
+    #    volumes:
+    #      - "{{ db_volume }}:/var/lib/mysql"
+    #    restart: true
+    #    env:
+    #      MYSQL_ROOT_PASSWORD: '@2B2c2d2'
+    #      MYSQL_DATABASE: 'OrganDonation'
+    #      MYSQL_USER: 'chandanteja'
+    #      MYSQL_PASSWORD: '@2B2c2d2'
+    #    ports:
+    #      - "3307:3306"
+        
+    #- name: Pull docker image of OrganDonation-spring
+    #  docker_image:
+    #    name: apurvaks/organdonation-spring
+    #    source: pull
