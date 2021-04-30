@@ -2,39 +2,30 @@
 - name: Pull docker image of OrganDonation
   hosts: all
   
+  vars:
+    db_volume: db_data
+  
   tasks:
-    - name: Create docker network
-      docker_network:
-        name: NETWORK
-        ipam_options:
-          subnet: '192.168.3.0/24'
-      
-    - name: Create database container
+    - name: Pull docker image of OrganDonation-angular
+      docker_image:
+        name: apurvaks/organdonation-angular
+        source: pull
+    - name: docker container of mysql
       docker_container:
-        name: mysql-con1
+        name: db
         image: mysql:8.0.23
+        volumes:
+          - "{{ db_volume }}:/var/lib/mysql"
+        restart: true
         env:
           MYSQL_ROOT_PASSWORD: '@2B2c2d2'
-          MYSQL_DATABASE: OrganDonation
+          MYSQL_DATABASE: 'OrganDonation'
           MYSQL_USER: 'chandanteja'
           MYSQL_PASSWORD: '@2B2c2d2'
-        networks:
-          - name: orgdon
-            ipv4_address: "192.168.3.22"
-      
-    - name: Create back-end container
-      docker_container: 
-        name: springboot-con1
-        image: apurvaks/organdonation-spring
         ports:
-          - "9098:9098"
-        networks:
-          - name: orgdon
-      
-    - name: Create front-end container
-      docker_container:
-        name: angular-con1
-        image: apurvaks/organdonation-angular
-        ports:
-          - "80:80"
-
+          - "3307:3306"
+        
+    - name: Pull docker image of OrganDonation-spring
+      docker_image:
+        name: apurvaks/organdonation-spring
+        source: pull
