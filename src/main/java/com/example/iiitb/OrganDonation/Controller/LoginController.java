@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping(path="/api")
-//@CrossOrigin(origins = "*",allowedHeaders = "*")
+@CrossOrigin(origins = "*")
 public class LoginController {
 
     private LoginService loginService;

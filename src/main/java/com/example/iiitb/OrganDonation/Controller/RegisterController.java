@@ -14,9 +14,8 @@ import com.example.iiitb.OrganDonation.DAO.primaryUserRepository;
 import javax.ws.rs.core.Response;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(path="/api")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
-//(origins = "http://localhost:4200")
 public class RegisterController {
 
     private primaryUserRepository primaryUserRepository;
