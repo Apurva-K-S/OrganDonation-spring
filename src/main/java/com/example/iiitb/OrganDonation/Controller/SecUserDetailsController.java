@@ -13,18 +13,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
+@Slf4j
 @CrossOrigin(origins = "*")
 @RequestMapping(path="/api")
 public class SecUserDetailsController {
 
     private SecUserDetailsService secUserDetailsService;
-
+    private static final Logger logger = LoggerFactory.getLogger(SecUserDetailsController.class);
 
     @Autowired
     public SecUserDetailsController(SecUserDetailsService secUserDetailsService)
     {
+        logger.info("[INFO]: inside SecUserDetailsController()");
         this.secUserDetailsService=secUserDetailsService;
     }
 
@@ -35,12 +40,16 @@ public class SecUserDetailsController {
 
         System.out.println("");
         System.out.println("inside SecUserDetailsController-getOrganTableController ");
+        logger.info("[INFO]: inside SecUserDetailsController-getOrganTableController()");
+
         System.out.println("primary USer status: "+secUserDetails.getPriUserStatus());
         System.out.println("Email: "+secUserDetails.getLoginEmail());
+        logger.info("[INFO]: primary USer status: "+secUserDetails.getPriUserStatus() + "Email: "+secUserDetails.getLoginEmail());
 
         List<userOrganTable> organs = secUserDetailsService.getOrgansList(secUserDetails.getLoginEmail());
 
         System.out.println("size of result list is: " + organs.size());
+        logger.info("[INFO]: size of result list is: " + organs.size());
 
 
         for(int i=0;i<organs.size();i++)
@@ -60,6 +69,7 @@ public class SecUserDetailsController {
             listOfOrgans.add(justOrgansList);
         }
         System.out.println("size of listOfOrgans: " + listOfOrgans.size());
+        logger.info("[INFO]: size of listOfOrgans: " + listOfOrgans.size());
         return listOfOrgans;
     }
 
@@ -68,10 +78,13 @@ public class SecUserDetailsController {
     Response userAuthentication(@RequestBody final Map<String, Object> allDetails)
     {
         System.out.println("\nSecUserDetailsController:userAuthentication api:storeHospitalName");
+        logger.info("[INFO]: SecUserDetailsController:userAuthentication api:storeHospitalName");
+
         System.out.println("all details: " + allDetails);
         System.out.println("primary User Status is: " + allDetails.get("priUserStatus"));
         System.out.println("hospital name is: " + allDetails.get("hospitalName"));
-        System.out.println("login Email is: " + allDetails.get("loginEmail")); // this email is secondary_email.
+        System.out.println("login Email is: " + allDetails.get("loginEmail")); // this email is secondary_email
+        logger.info("[INFO]: all details: " + allDetails);// .
 
         System.out.println("check the keys:\n");
         Iterator<Map.Entry<String, Object>> iterator = allDetails.entrySet().iterator();
@@ -109,6 +122,9 @@ public class SecUserDetailsController {
         boolean result1 = secUserDetailsService.storeUserFinalOrgans(organsList, allDetails.get("loginEmail").toString());
 
         boolean result = secUserDetailsService.storeHospitalName( allDetails.get("hospitalName").toString(), allDetails.get("loginEmail").toString());
+
+        logger.info("[INFO]: result1 of secUserDetailsService.storeUserFinalOrgans(organsList, allDetails.get(loginEmail).toString());" + result1 );
+        logger.info("[INFO]: result of secUserDetailsService.storeHospitalName( allDetails.get(hospitalName).toString(), allDetails.get(loginEmail).toString());" + result);
 
         System.out.println("\nResult is " + result1);
 

@@ -15,11 +15,14 @@ import com.example.iiitb.OrganDonation.Services.SecUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
+@Slf4j
 class OrganDonationApplicationTests {
 
 	@Test
@@ -32,10 +35,12 @@ class OrganDonationApplicationTests {
 	LoginRepository loginRepository;
 	SecUserDetailsRepository secUserDetailsRepository;
 	OrganServiceTwo organServiceTwo;
+	private static final Logger logger = LoggerFactory.getLogger(OrganDonationApplicationTests.class);
 
 	@Autowired
 	public OrganDonationApplicationTests(OrganServiceTwo organServiceTwo, SecUserDetailsRepository secUserDetailsRepository, LoginRepository loginRepository, LoginService loginService, HospitalRegisterService hospitalRegisterService, SecUserDetailsService secUserDetailsService){
 
+		logger.info("[INFO]: inside OrganDonationApplicationTests()");
 		this.loginService = loginService;
 		this.hospitalRegisterService = hospitalRegisterService;
 		this.secUserDetailsService = secUserDetailsService;
@@ -47,32 +52,40 @@ class OrganDonationApplicationTests {
 	@Test
 	public void positiveTestPrimaryUserAuthentication()
 	{
+		logger.info("[INFO]: inside positiveTestPrimaryUserAuthentication()");
 		LoginDetails loginDetails = new LoginDetails("user1@gmail.com","12345", "Primary User");
 		int temp = loginService.authenticateUser(loginDetails.getLoginEmail(), loginDetails.getLoginPassword(), 1);
+		logger.info("[INFO]: result is = " + temp);
 		assertEquals(temp, 1);
 	}
 
 	@Test
 	public void negativeTestPrimaryUserAuthentication()
 	{
+		logger.info("[INFO]: inside negativeTestPrimaryUserAuthentication()");
 		LoginDetails loginDetails = new LoginDetails("user1@gmail.com","12345", "Secondary User");
 		int temp = loginService.authenticateUser(loginDetails.getLoginEmail(), loginDetails.getLoginPassword(), 2);
+		logger.info("[INFO]: result is = " + temp);
 		assertNotEquals(temp, 1);
 	}
 
 	@Test
 	public void positiveTestSecondaryUserAuthentication()
 	{
+		logger.info("[INFO]: inside positiveTestSecondaryUserAuthentication()");
 		LoginDetails loginDetails = new LoginDetails("user1sec@gmail.com","12345", "Secondary User");
 		int temp = loginService.authenticateUser(loginDetails.getLoginEmail(), loginDetails.getLoginPassword(), 2);
+		logger.info("[INFO]: result is = " + temp);
 		assertEquals(temp, 1);
 	}
 
 	@Test
 	public void negativeTestSecondaryUserAuthentication()
 	{
+		logger.info("[INFO]: inside negativeTestSecondaryUserAuthentication()");
 		LoginDetails loginDetails = new LoginDetails("user1sec@gmail.com","12345", "Primary User");
 		int temp = loginService.authenticateUser(loginDetails.getLoginEmail(), loginDetails.getLoginPassword(), 1);
+		logger.info("[INFO]: result is = " + temp);
 		assertNotEquals(temp, 1);
 	}
 
@@ -80,20 +93,25 @@ class OrganDonationApplicationTests {
 	@Test
 	public void positiveTestAuthenticateHospital()
 	{
+		logger.info("[INFO]: inside positiveTestAuthenticateHospital()");
 		String result = hospitalRegisterService.authenticateHospital("hospital1@gmail.com", "12345");
+		logger.info("[INFO]: result is = " + result);
 		assertThat(result.equals("Hospital1"));
 	}
 
 	@Test
 	public void negativeTestAuthenticateHospital()
 	{
+		logger.info("[INFO]: inside negativeTestAuthenticateHospital()");
 		String result = hospitalRegisterService.authenticateHospital("hospital1@gmail.com", "1234");
+		logger.info("[INFO]: result is = " + result);
 		assertNull(result);
 	}
 
 	@Test
 	public void positiveTestGetOrgansList()
 	{
+		logger.info("[INFO]: inside positiveTestGetOrgansList()");
 		List<userOrganTable> temp = secUserDetailsService.getOrgansList("user1sec@gmail.com");
 		List<userOrganTable> temp2 = new ArrayList<>();
 		primaryUser pu = new primaryUser();
@@ -146,6 +164,7 @@ mysql> select * from primary_user where secondary_email = "user1sec@gmail.com";
 	@Test
 	public void negativeTestGetOrgansList()
 	{
+		logger.info("[INFO]: inside negativeTestGetOrgansList()");
 		List<userOrganTable> temp = secUserDetailsService.getOrgansList("user1sec@gmail.com");
 		List<userOrganTable> temp2 = new ArrayList<>();
 		primaryUser pu = new primaryUser();
@@ -199,6 +218,7 @@ mysql> select * from primary_user where secondary_email = "user1sec@gmail.com";
 	public void positiveTestGetDonorInfo()
 	{
 		// | A+          | Hospital3     | user4      | 2021-04-19 18:12:42.989000 |
+		logger.info("[INFO]: inside positiveTestGetDonorInfo()");
 		List<DonorInfo> temp = organServiceTwo.getDonorInfo("Eyes", "A+", "Hospital3");
 		List<DonorInfo> temp2 = new ArrayList<>();
 		primaryUser pu = new primaryUser();
@@ -235,6 +255,7 @@ mysql> select * from primary_user where secondary_email = "user1sec@gmail.com";
 	@Test
 	public void negativeTestGetDonorInfo()
 	{
+		logger.info("[INFO]: inside negativeTestGetDonorInfo()");
 		List<DonorInfo> temp = organServiceTwo.getDonorInfo("Eyes", "O+", "Hospital4");
 		List<DonorInfo> temp2 = new ArrayList<>();
 		primaryUser pu = new primaryUser();
