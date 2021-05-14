@@ -29,6 +29,8 @@ public class RegisterService {
     {
         logger.info("[INFO]: inside registerUser()");
         primaryUser n = new primaryUser();
+
+
         n.setFirstName(prmUser.getFirstName());
         n.setSecondary_first_name(prmUser.getSecondary_first_name());
 
